@@ -1,17 +1,17 @@
 /**
  * Represents the state of a board in a game of Tic-Tac-Toe
  */
-public abstract class Board {
+public abstract class Board  {
     /**
      * The number of rows and columns in this square Tic-Tac-Toe board
      */
-    private static final int SIZE = 3;
+    private int boardSize;
     /**
      * A 2D array representing the state of this Tic-Tac-Toe board
      */
-//    private Object[][] currentBoard = new Object[SIZE][SIZE];
-//
-//    private char winner;
+    private Object[][] currentBoard;
+
+    private char winner;
 
     /**
      * Creates an empty Tic-Tac-Toe board
@@ -26,8 +26,9 @@ public abstract class Board {
      * return Size of the board
      */
     public int getSize(){
-        return SIZE;
+        return boardSize;
     }
+
 
 
 
@@ -41,12 +42,18 @@ public abstract class Board {
     /**
      * @return true if currentPlayer has won the game
      */
-    public abstract boolean hasWon(char currentPlayer);
+    public abstract boolean hasWon();
+
+
+
+
 
     /**
      * print the current board
      */
     public abstract void printBoard();
+
+    public abstract Board copy(Board other);
 
 
 }

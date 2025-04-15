@@ -1,4 +1,3 @@
-// will need an import or two
 
 import java.util.Queue;
 import java.util.Scanner;
@@ -10,8 +9,8 @@ contains the game loop and all the necessary methods for that
 public class Game {
     private MainBoard gameBoard; // the mainboard for play
     private Queue<Character> currentPlayer; // record player change
-    private int undoNumX; // record number of times X player undo steps
-    private int undoNumO; // record number of times O player undo steps
+    private int undoNumX; // record number of times X player can undo steps
+    private int undoNumO; // record number of times O player can undo steps
     private Stack<Integer> moveHistory; // record move history
     private Scanner inputScan = new Scanner(System.in); // a scanner to scan user input
 
@@ -24,6 +23,9 @@ public class Game {
 //        gameBoard = new Board();
 //        currentPlayerInt = 0;
 //        currentPlayer = PLAYERS[currentPlayerInt];
+        undoNumO = 3;
+        undoNumX = 3;
+
 
     }
 

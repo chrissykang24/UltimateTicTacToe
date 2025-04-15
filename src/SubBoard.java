@@ -8,12 +8,20 @@ public class SubBoard extends Board {
 
     // create a small board
     private char[][] currentSubBoard;
+    private char winner = ' ';
+    private int boardSize;
 
     /**
      * public constructor
      */
     public SubBoard(){
-
+        boardSize = 3;
+        currentSubBoard = new char[boardSize][boardSize];
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                currentSubBoard[i][j]=' ';
+            }
+        }
     }
 
     /**
@@ -35,13 +43,9 @@ public class SubBoard extends Board {
      *  @return true if the currentBoard already has an 'X' or an 'O' at
      * [row][column].
      */
-    public boolean isFilled(int row, int col){
-        return false;
+    public boolean isFilled(int row, int col) {
+        return currentSubBoard[row][col] == 'X' || currentSubBoard[row][col] == 'O';
     }
-
-    // implement then remove STUB return
-    //return currentBoard[row][col] == 'X' || currentBoard[row][col] == 'O';
-
     /**
      * for players to undo steps
      * @param playerTurns the sequence of players
@@ -52,23 +56,50 @@ public class SubBoard extends Board {
     /**
      * print the current sub board
      */
-    public void printBoard(){}
+    public void printBoard(){
+        System.out.println(currentSubBoard[0][0] + " | " + currentSubBoard[0][1] + " | " + currentSubBoard[0][2]);
+        System.out.println("_________");
+        System.out.println(currentSubBoard[1][0] + " | " + currentSubBoard[1][1] + " | " + currentSubBoard[1][2]);
+        System.out.println("_________");
+        System.out.println(currentSubBoard[2][0] + " | " + currentSubBoard[2][1] + " | " + currentSubBoard[2][2]);
+    }
 
     /**
      * check if the board is full
-     * @return true if the board if full
+     * @return true if the board is full
      */
     public boolean isFull(){
-        return false;
+        for (int i = 0; i <boardSize ; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if(!isFilled(i,j))
+                    return false;
+            }
+        };
+        return true;
     }
 
     /**
      * check if current player wins this subboard
-     * @return true if current player wins
+     * @return true if a player wins
+     * and set winner to winning player
      */
-    public boolean hasWon(char currentPlayer){
+    public boolean hasWon(){
+
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (currentSubBoard[i][j]=='X');
+            }
+
+        }
+
         return false;
     }
 
+    @Override
+    public Board copy(Board other) {
+        return null;
+    }
 }
+
+
 

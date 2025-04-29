@@ -60,6 +60,7 @@ public class Game {
 //            System.out.println("It is a tie better luck next time.");
 //        }
 
+        System.out.println("Which subboard would you like to play? ");
     }
 
     /**

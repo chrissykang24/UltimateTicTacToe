@@ -5,11 +5,11 @@ public abstract class Board  {
     /**
      * The number of rows and columns in this square Tic-Tac-Toe board
      */
-    private int boardSize;
+    private int boardSize = 3;
     /**
      * A 2D array representing the state of this Tic-Tac-Toe board
      */
-    private Object[][] currentBoard;
+    //private Object[][] currentBoard;
 
     private char winner;
 
@@ -31,6 +31,28 @@ public abstract class Board  {
 
 
 
+    /**
+     * Converts an integer board location into a column number in currentBoard.
+     *
+     * @param location an integer board position in range [1-9]
+     * @return an integer column number in range [0-2]
+     */
+    public int getColumn(int location) {
+        return (location-1) % getSize();
+    }
+
+    /**
+     * Converts an integer board location into a row number in currentBoard.
+     *
+     * @param location an integer board position in range [1-9]
+     * @return an integer row number in range [0-2]
+     */
+    public int getRow(int location) {
+        // Use integer division to truncate fractional part (column info)
+        // implement then remove STUB return
+        return (location - 1)/getSize();
+
+    }
 
 
 
@@ -45,7 +67,9 @@ public abstract class Board  {
     public abstract boolean hasWon();
 
 
-
+    public char getWinner(){
+        return winner;
+    }
 
 
     /**
@@ -53,7 +77,9 @@ public abstract class Board  {
      */
     public abstract void printBoard();
 
-    public abstract Board copy(Board other);
+   // public abstract Board copy(Board other);
+
+    public abstract Board newCopy();
 
 
 }

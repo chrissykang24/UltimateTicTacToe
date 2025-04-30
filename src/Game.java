@@ -7,8 +7,8 @@ contains the game loop and all the necessary methods for that
 public class Game {
     private MainBoard gameBoard; // the mainboard for play
     private char currentPlayer; // record player change
-    private final int UNDONUMX = 3; // record number of times X player can undo steps
-    private final int UNDONUMO = 3; // record number of times O player can undo steps
+    private int UndoNumX = 0; // record number of times X player can undo steps
+    private int UndoNumO = 0; // record number of times O player can undo steps
     private Stack<Integer> moveHistory; // record move history
     private Scanner in = new Scanner(System.in);
     private SubBoard chosen;
@@ -45,15 +45,35 @@ public class Game {
             }
             while (!chosen.hasWon()){
               //  System.out.println(moveHistory);
+//               try{
+//                   int nextMove = in.nextInt();
+//               } catch (InputMismatchException e){
+//                   String Input = in.next();
+//               }
                 if (moveHistory.size() >= 2) {
                  //   System.out.println(moveHistory);
+                    System.out.println("Enter 'Undo' if you want or enter NO! ");
                     if (in.next().equals("Undo")) {
-                        System.out.println("Notice");
-                        chosen.undo(moveHistory);
+                        if (currentPlayer == 'X' && UndoNumX <= 3) {
+                            System.out.println("Notice");
+                            chosen.undo(moveHistory);
+                        } else if (currentPlayer == 'O' && UndoNumO <= 3) {
+                            System.out.println("Notice");
+                            chosen.undo(moveHistory);
+                        } else {
+                            System.out.println("Exceeding the allowed chances of undoing steps");
+                        }
+                    }
+                    else {
+                        Move(chosen);
+                        System.out.println("+1");
                     }
                 }
-                   Move(chosen);
-                System.out.println("+1");
+                else {
+                    Move(chosen);
+                    System.out.println("+1");
+                }
+
 
                 if (chosen.hasWon()){
                     chosen.printBoard();
@@ -76,32 +96,6 @@ public class Game {
                 break;
             }
         }
-//        gameBoard.printBoard();
-//        while (!gameBoard.isFull() && !playerHasWon){
-//            currentPlayer = PLAYERS[currentPlayerInt];
-//
-//            System.out.print("Enter an integer between 1-9: ");
-//            try{
-//                gameBoard.play(currentPlayer,getPlayerMove());
-//                gameBoard.printBoard();
-//                if(gameBoard.hasWon(currentPlayer))
-//                    playerHasWon = true;
-//                else if (currentPlayerInt==1) {
-//                    currentPlayerInt=0;
-//                }else
-//                    currentPlayerInt=1;
-//
-//            } catch (Exception e) {
-//                System.out.println(e.getMessage());;
-//            }
-//
-//        }
-//        if (playerHasWon){
-//            System.out.println("Congratulations player " + currentPlayer + "! You won");
-//        }else{
-//
-//        }
-
 
     }
 
@@ -111,7 +105,7 @@ public class Game {
      */
     public void Move(SubBoard chosen) {
 //
-        gameBoard.printBoard();
+
        playerSwitch();
 
 
@@ -132,7 +126,7 @@ public class Game {
                 System.out.println(e.getMessage());
                 playerSwitch();
             }
-
+        gameBoard.printBoard();
     }
 
     public void playerSwitch(){
@@ -162,15 +156,4 @@ public class Game {
 
     }
 
-//    /**
-//     * record the move history
-//     */
-//   public void moveRecord(){
-//
-//   }
-
-//public void push(int location){
-//        if (location != -1)
-//           moveHistory.push(location);
-//}
 }

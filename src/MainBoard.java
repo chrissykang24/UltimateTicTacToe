@@ -5,7 +5,8 @@ public class MainBoard extends Board{
 
     // create a whole board
     private SubBoard[][] currentMainBoard;
-    private char winner = ' ';
+
+
 //    private int boardSize;
 
     /**
@@ -13,6 +14,8 @@ public class MainBoard extends Board{
      */
     public MainBoard(){
 //        boardSize = 3;
+
+        winner = ' ';
         currentMainBoard = new SubBoard[getSize()][getSize()];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -32,7 +35,8 @@ public class MainBoard extends Board{
     public boolean isFull(){
         for (int i = 0; i < getSize(); i++) {
             for (int j = 0; j < getSize(); j++) {
-                if(!(currentMainBoard[i][j].isFull()||currentMainBoard[i][j].hasWon()))
+                if(!(currentMainBoard[i][j].isFull()))
+            //    currentMainBoard[i][j].hasWon()
                     return false;
             }
 
@@ -70,9 +74,10 @@ public class MainBoard extends Board{
            int countO = 0;
            for (int j = 0; j < getSize(); j++) {
                if (currentMainBoard[j][i].getWinner() == 'X') {
-                   winner = 'X';
+//                   System.out.println();
+                   countX++;
                } else if (currentMainBoard[j][i].getWinner() == 'O') {
-                   winner = 'O';
+                   countO++;
                }
            }
            if (countO == getSize()) {
@@ -92,8 +97,10 @@ public class MainBoard extends Board{
 
            if (currentMainBoard[i][i].getWinner() == 'X') {
                countX++;
+//               System.out.println(currentMainBoard[i][i].getWinner() + "note");
            } else if (currentMainBoard[i][i].getWinner() == 'O') {
                countO++;
+           }
                if (countX == getSize()) {
                    winner = 'X';
                    return true;
@@ -101,7 +108,6 @@ public class MainBoard extends Board{
                    winner = 'O';
                    return true;
                }
-           }
        }
 
        countX = 0;
@@ -125,23 +131,46 @@ public class MainBoard extends Board{
        return false;
    }
 
+   public SubBoard getSubBoard(int boardNum){
+       return currentMainBoard[getRow(boardNum)][getColumn(boardNum)];
+   }
+
+
+   public void choose(int location) throws IllegalArgumentException{
+       if (location>9||location<1)
+           throw new IllegalArgumentException("Cannot Play There");
+       else if (getSubBoard(location).isFull())
+           throw new IllegalArgumentException("Spot is already full");
+
+
+
+   }
     /**
      * print the current main board
      */
    public void printBoard(){
+
        for (int i = 0; i < getSize(); i++) {
+           String[] board1lines = currentMainBoard[i][0].getPrintLines();
+           String[] board2lines = currentMainBoard[i][1].getPrintLines();
+           String[] board3lines = currentMainBoard[i][2].getPrintLines();
            for (int j = 0; j < getSize(); j++) {
-               System.out.print(currentMainBoard[i][j].getPrintBoardFirstLine());
-               if (j != getSize() -1 )
-                   System.out.print("||");
+
+               System.out.print(board1lines[j] + " || ");
+               System.out.print(board2lines[j] + " || ");
+               System.out.print(board3lines[j] + " ");
+               if (j < getSize() - 1) {
+                   System.out.println();
+                   System.out.println("----------------------------------------");
+               }
            }
            System.out.println();
-           System.out.println("_________");
+           System.out.println("========================================");
        }
    }
 
-    @Override
-    public Board newCopy() {
-        return null;
-    }
+//    @Override
+//    public Board newCopy() {
+//        return null;
+//    }
 }

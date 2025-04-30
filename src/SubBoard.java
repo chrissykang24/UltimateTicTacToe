@@ -8,7 +8,7 @@ public class SubBoard extends Board {
 
     // create a small board
     private char[][] currentSubBoard;
-    private char winner = ' ';
+
 //    private int boardSize;
 
     /**
@@ -16,6 +16,7 @@ public class SubBoard extends Board {
      */
     public SubBoard(){
 //        boardSize = 3;
+        winner = ' ';
         currentSubBoard = new char[getSize()][getSize()];
         for (int i = 0; i < getSize(); i++) {
             for (int j = 0; j < getSize(); j++) {
@@ -29,14 +30,17 @@ public class SubBoard extends Board {
      * Add move to the board
      * @throws Exception if location is invalid or already full
      */
-    public void play(Queue<Character> playerTurns, int location) throws Exception {
+    public void play(char currentPlayer, int location) throws IllegalArgumentException{
         // implement and throw exception if the move is invalid
         if (location>9||location<1)
-            throw new Exception("Cannot Play There");
+            throw new IllegalArgumentException("Cannot Play There");
         else if (isFilled(getRow(location),getColumn(location)))
-            throw new Exception("Spot is already full");
-        else
-            currentSubBoard[getRow(location)][getColumn(location)] = playerTurns.remove();
+            throw new IllegalArgumentException("Spot is already full");
+        else {
+            currentSubBoard[getRow(location)][getColumn(location)] = currentPlayer;
+         //   printBoard();
+         //   System.out.println("played");
+        }
 // add anything to turn?
     }
 
@@ -54,8 +58,11 @@ public class SubBoard extends Board {
      */
     public void undo( Stack<Integer> moveHistory ){
         for (int i = 0; i < 2; i++) {
-            int location = moveHistory.pop();
-            currentSubBoard[getRow(location)][getColumn(location)] = ' ';
+
+                int location = moveHistory.pop();
+                currentSubBoard[getRow(location)][getColumn(location)] = ' ';
+
+
 
         }
 
@@ -73,16 +80,18 @@ public class SubBoard extends Board {
         System.out.println(currentSubBoard[2][0] + " | " + currentSubBoard[2][1] + " | " + currentSubBoard[2][2]);
     }
 
-    public StringBuilder getPrintBoardFirstLine(){
-        return new StringBuilder(currentSubBoard[0][0] + " | " + currentSubBoard[0][1] + " | " + currentSubBoard[0][2]);
-    }
-
-    public StringBuilder getPrintBoardSecondLine(){
-        return new StringBuilder(currentSubBoard[1][0] + " | " + currentSubBoard[1][1] + " | " + currentSubBoard[1][2]);
-    }
-
-    public StringBuilder getPrintBoardThirdLine(){
-        return new StringBuilder(currentSubBoard[2][0] + " | " + currentSubBoard[2][1] + " | " + currentSubBoard[2][2]);
+    public String[] getPrintLines() {
+        String[] lines = new String[getSize()];
+        for (int i = 0; i < getSize(); i++) {
+            lines[i] = " ";
+            for (int j = 0; j < getSize(); j++) {
+                if (j != getSize()-1)
+                 lines[i] += currentSubBoard[i][j] + " | ";
+                else
+                    lines[i] += currentSubBoard[i][j];
+            }
+        }
+        return lines;
     }
 
 
@@ -135,9 +144,9 @@ public class SubBoard extends Board {
             int countO = 0;
             for (int j = 0; j < getSize(); j++) {
                 if (currentSubBoard[j][i] == 'X') {
-                    winner = 'X';
+                    countX++;
                 } else if (currentSubBoard[j][i] == 'O') {
-                    winner = 'O';
+                    countO++;
                 }
             }
             if (countO == getSize()) {
@@ -159,14 +168,16 @@ public class SubBoard extends Board {
                 countX++;
             } else if (currentSubBoard[i][i] == 'O') {
                 countO++;
+            }
                 if (countX == getSize()) {
                     winner = 'X';
-                    return true;
+  //                  System.out.println("winner is X");
+//                    System.out.println(winner + "wins");
+                   return true;
                 } else if (countO == getSize()) {
                     winner = 'O';
                     return true;
                 }
-            }
         }
 
         countX = 0;
@@ -193,21 +204,21 @@ public class SubBoard extends Board {
 
 
 
-    public SubBoard(SubBoard other) {
-        this.currentSubBoard = new char[getSize()][getSize()];
-        for (int i = 0; i < getSize(); i++) {
-            for (int j = 0; j < getSize(); j++) {
-                currentSubBoard[i][j] = other.currentSubBoard[i][j];
-            }
-        }
-        winner = other.winner;
-
-    }
-
-    @Override
-    public SubBoard newCopy(){
-        return new SubBoard(this);
-    }
+//    public SubBoard(SubBoard other) {
+//        this.currentSubBoard = new char[getSize()][getSize()];
+//        for (int i = 0; i < getSize(); i++) {
+//            for (int j = 0; j < getSize(); j++) {
+//                currentSubBoard[i][j] = other.currentSubBoard[i][j];
+//            }
+//        }
+//        winner = other.winner;
+//
+//    }
+//
+//    @Override
+//    public SubBoard newCopy(){
+//        return new SubBoard(this);
+//    }
 
 }
 

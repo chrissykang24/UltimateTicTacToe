@@ -5,13 +5,13 @@ public abstract class Board  {
     /**
      * The number of rows and columns in this square Tic-Tac-Toe board
      */
-    private int boardSize = 3;
+    private final int BOARDSIZE = 3;
     /**
      * A 2D array representing the state of this Tic-Tac-Toe board
      */
-    //private Object[][] currentBoard;
 
-    private char winner;
+
+    protected char winner;
 
     /**
      * Creates an empty Tic-Tac-Toe board
@@ -26,7 +26,7 @@ public abstract class Board  {
      * return Size of the board
      */
     public int getSize(){
-        return boardSize;
+        return BOARDSIZE;
     }
 
 
@@ -79,7 +79,7 @@ public abstract class Board  {
 
    // public abstract Board copy(Board other);
 
-    public abstract Board newCopy();
+//    public abstract Board newCopy();
 
 
 }

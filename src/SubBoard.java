@@ -9,7 +9,7 @@ public class SubBoard extends Board {
     // create a small board
     private char[][] currentSubBoard;
 
-//    private int boardSize;
+
 
     /**
      * public constructor
@@ -38,10 +38,9 @@ public class SubBoard extends Board {
             throw new IllegalArgumentException("Spot is already full");
         else {
             currentSubBoard[getRow(location)][getColumn(location)] = currentPlayer;
-         //   printBoard();
-         //   System.out.println("played");
+
         }
-// add anything to turn?
+
     }
 
     /**
@@ -56,15 +55,14 @@ public class SubBoard extends Board {
      * for players to undo steps
      * @param moveHistory the positions each player made
      */
-    public void undo( Stack<Integer> moveHistory ){
-        for (int i = 0; i < 2; i++) {
+    public void undo( Stack<Integer> moveHistory){
+            for (int i = 0; i < 2; i++) {
 
                 int location = moveHistory.pop();
                 currentSubBoard[getRow(location)][getColumn(location)] = ' ';
 
-
-
         }
+
 
     }
 
@@ -80,6 +78,10 @@ public class SubBoard extends Board {
         System.out.println(currentSubBoard[2][0] + " | " + currentSubBoard[2][1] + " | " + currentSubBoard[2][2]);
     }
 
+    /**
+     * store this subboard prints into a string array
+     * @return the string array
+     */
     public String[] getPrintLines() {
         String[] lines = new String[getSize()];
         for (int i = 0; i < getSize(); i++) {

@@ -2,13 +2,8 @@
  * Represents the state of a board in a game of Tic-Tac-Toe
  */
 public abstract class Board  {
-    /**
-     * The number of rows and columns in this square Tic-Tac-Toe board
-     */
+
     private final int BOARDSIZE = 3;
-    /**
-     * A 2D array representing the state of this Tic-Tac-Toe board
-     */
 
 
     protected char winner;
@@ -67,6 +62,10 @@ public abstract class Board  {
     public abstract boolean hasWon();
 
 
+    /**
+     * return winner
+     * @return winner
+     */
     public char getWinner(){
         return winner;
     }
@@ -77,9 +76,6 @@ public abstract class Board  {
      */
     public abstract void printBoard();
 
-   // public abstract Board copy(Board other);
-
-//    public abstract Board newCopy();
 
 
 }

@@ -29,14 +29,13 @@ public class MainBoard extends Board{
 //    }
 
     /**
-     * check if the whole board if full or it has a winner
-     * @return true if the subboard is full or it has a winner
+     * check if the whole board if full
+     * @return true if the subboard is full
      */
     public boolean isFull(){
         for (int i = 0; i < getSize(); i++) {
             for (int j = 0; j < getSize(); j++) {
                 if(!(currentMainBoard[i][j].isFull()))
-            //    currentMainBoard[i][j].hasWon()
                     return false;
             }
 
@@ -131,16 +130,27 @@ public class MainBoard extends Board{
        return false;
    }
 
+    /**
+     * return subboard at given index
+     * @param boardNum given index
+     * @return subbaord
+     */
    public SubBoard getSubBoard(int boardNum){
        return currentMainBoard[getRow(boardNum)][getColumn(boardNum)];
    }
 
-
+    /**
+     * uses choose which board to play
+     * @param location userinput
+     * @throws IllegalArgumentException as follow
+     */
    public void choose(int location) throws IllegalArgumentException{
        if (location>9||location<1)
            throw new IllegalArgumentException("Cannot Play There");
        else if (getSubBoard(location).isFull())
-           throw new IllegalArgumentException("Spot is already full");
+           throw new IllegalArgumentException("Board has been played");
+       else if (getSubBoard(location).hasWon())
+           throw new IllegalArgumentException("Board has been played");
 
 
 
@@ -169,8 +179,5 @@ public class MainBoard extends Board{
        }
    }
 
-//    @Override
-//    public Board newCopy() {
-//        return null;
-//    }
+
 }

@@ -12,9 +12,6 @@ public class Game {
     private Stack<Integer> moveHistory; // record move history
     private Scanner in = new Scanner(System.in);
     private SubBoard chosen;
-  //  private int moveLocation = -1;
-   // a scanner to scan user input
-
 
 
     /**
@@ -36,48 +33,70 @@ public class Game {
      */
     public void gameLoop() {
 
-  System.out.println("This is tic-tac-toe. \nHere are some rules you might not know: \n1. Once a player chose a board, two players must play on that board until either it's full or it has a winner. \n2. Two players take turns to initiate a board and make the first move. \n3. Each player has three chances to undo a set of steps. Just enter 'Undo' without any space on your turn. A set of steps mean two moves, one by each player. Therefore, players can only undo steps after two moves are made in any sub-board. ");
+  System.out.println("This is tic-tac-toe. \nHere are some rules you might not know: \n1. Once a player chose a board, two players must play on that board until either it's full or it has a winner. \n2. Player who lost the previous board can initiate a new board and make the first move. If nobody wins a board, then the next person can start. \n3. Each player has three chances to undo a set of steps. A set of steps mean two moves, one by each player. Therefore, players can only undo steps after two moves are made in any sub-board. After each board is full or has a winner, players cannot undo anymore");
   gameBoard.printBoard();
 
         while (!gameBoard.hasWon()){
+            chosen = null;
+            moveHistory.clear();
             while (chosen == null) {
                 chooseBoard();
             }
             while (!chosen.hasWon()){
-              //  System.out.println(moveHistory);
-//               try{
-//                   int nextMove = in.nextInt();
-//               } catch (InputMismatchException e){
-//                   String Input = in.next();
-//               }
-                if (moveHistory.size() >= 2) {
-                 //   System.out.println(moveHistory);
-                    System.out.println("Enter 'Undo' if you want or enter NO! ");
-                    if (in.next().equals("Undo")) {
-                        if (currentPlayer == 'X' && UndoNumX <= 3) {
-                            System.out.println("Notice");
-                            chosen.undo(moveHistory);
-                        } else if (currentPlayer == 'O' && UndoNumO <= 3) {
-                            System.out.println("Notice");
-                            chosen.undo(moveHistory);
-                        } else {
-                            System.out.println("Exceeding the allowed chances of undoing steps");
-                        }
-                    }
-                    else {
-                        Move(chosen);
-                        System.out.println("+1");
-                    }
-                }
-                else {
-                    Move(chosen);
-                    System.out.println("+1");
-                }
+                if (! chosen.isFull()) {
+                    if (currentPlayer == 'X' && UndoNumX < 3) {
 
+                        if (moveHistory.size() >= 2) {
+
+                              System.out.println(moveHistory);
+                            System.out.println("Player X, it's your turn");
+                            System.out.println("Enter 'Undo' if you want or enter NO! ");
+                            if (in.next().equals("Undo")) {
+                                System.out.println("Notice");
+                                chosen.undo(moveHistory);
+                                UndoNumX++;
+                                if (UndoNumX == 3)
+                                    System.out.println("X has used all the undo chances");
+                                chosen.printBoard();
+                                Move(chosen);
+                            } else {
+                                Move(chosen);
+                            }
+
+                        } else {
+                            Move(chosen);
+                        }
+                    } else if (currentPlayer == 'O' && UndoNumO < 3) {
+                        if (moveHistory.size() >= 2) {
+                            System.out.println("Player O, it's your turn");
+                            System.out.println("Enter 'Undo' if you want or enter NO! ");
+                            if (in.next().equals("Undo")) {
+                                System.out.println("Notice");
+                                chosen.undo(moveHistory);
+                                UndoNumO++;
+                                if (UndoNumO == 3)
+                                    System.out.println("O has used all the undo chances");
+                                chosen.printBoard();
+                            } else {
+                                Move(chosen);
+                            }
+
+                        } else {
+                            Move(chosen);
+                        }
+
+                    } else {
+                        Move(chosen);
+                    }
+                } else {
+
+                        Move(chosen);
+                }
 
                 if (chosen.hasWon()){
                     chosen.printBoard();
                     System.out.println(chosen.getWinner() + " WINS this board.");
+                    break;
                 }
             if (chosen.isFull()){
                 chosen.printBoard();
@@ -88,7 +107,7 @@ public class Game {
 
             if (gameBoard.hasWon()){
                 gameBoard.printBoard();
-                System.out.println(gameBoard.getWinner() + " WINS");
+                System.out.println("Congrats!" + gameBoard.getWinner() + " WINS this game!");
             }
             else if (gameBoard.isFull()){
                 gameBoard.printBoard();
@@ -105,12 +124,8 @@ public class Game {
      */
     public void Move(SubBoard chosen) {
 //
-
-       playerSwitch();
-
-
             try {
-                System.out.println("Enter your move");
+                System.out.println("Enter your move, " + currentPlayer);
                 int location = in.nextInt();
            //     System.out.println(location);
                 chosen.play(currentPlayer, location);
@@ -126,9 +141,13 @@ public class Game {
                 System.out.println(e.getMessage());
                 playerSwitch();
             }
+        playerSwitch();
         gameBoard.printBoard();
     }
 
+    /**
+     * swtich the player
+     */
     public void playerSwitch(){
         if (currentPlayer == 'X') {
             currentPlayer = 'O';
@@ -137,9 +156,12 @@ public class Game {
         }
     }
 
+    /***
+     * players  choose which board to play
+     */
     public void chooseBoard() {
       //  System.out.println("Player " + currentPlayer + " it is your turn!");
-        System.out.println("Which board (1-9) would you like to play? ");
+        System.out.println("Which board (1-9) would you like to play, " + currentPlayer + " ?");
         
             try {
                 int boardNum = in.nextInt();

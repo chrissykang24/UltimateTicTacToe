@@ -35,7 +35,7 @@ public class MainBoard extends Board{
     public boolean isFull(){
         for (int i = 0; i < getSize(); i++) {
             for (int j = 0; j < getSize(); j++) {
-                if(!(currentMainBoard[i][j].isFull()))
+                if(!(currentMainBoard[i][j].isFull() || currentMainBoard[i][j].hasWon()) )
                     return false;
             }
 

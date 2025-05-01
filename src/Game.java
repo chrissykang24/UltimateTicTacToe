@@ -33,7 +33,7 @@ public class Game {
      */
     public void gameLoop() {
 
-  System.out.println("This is tic-tac-toe. \nHere are some rules you might not know: \n1. Once a player chose a board, two players must play on that board until either it's full or it has a winner. \n2. Player who lost the previous board can initiate a new board and make the first move. If nobody wins a board, then the next person can start. \n3. Each player has three chances to undo a set of steps. A set of steps mean two moves, one by each player. Therefore, players can only undo steps after two moves are made in any sub-board. After each board is full or has a winner, players cannot undo anymore");
+  System.out.println("This is tic-tac-toe. \nHere are some rules you might not know: \n1. Once a player chose a board, two players must play on that board until either it's full or it has a winner. \n2. Player who lost the previous board can initiate a new board and make the first move. If nobody wins a board, then the next person can start. \n3. Each player has three chances to undo a set of steps. A set of steps mean two moves, one by each player. \nTherefore, players can only undo steps after two moves are made in any sub-board. After each board is full or has a winner, players cannot undo anymore");
   gameBoard.printBoard();
 
         while (!gameBoard.hasWon()){
@@ -108,6 +108,7 @@ public class Game {
             if (gameBoard.hasWon()){
                 gameBoard.printBoard();
                 System.out.println("Congrats!" + gameBoard.getWinner() + " WINS this game!");
+                break;
             }
             else if (gameBoard.isFull()){
                 gameBoard.printBoard();
@@ -162,7 +163,7 @@ public class Game {
     public void chooseBoard() {
       //  System.out.println("Player " + currentPlayer + " it is your turn!");
         System.out.println("Which board (1-9) would you like to play, " + currentPlayer + " ?");
-        
+
             try {
                 int boardNum = in.nextInt();
                 gameBoard.choose(boardNum);
